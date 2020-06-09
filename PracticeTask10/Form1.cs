@@ -15,7 +15,6 @@ namespace PracticeTask10
         int x = 101;
         Label x_label, sum_label;
         TextBox x_input;
-        bool is_inputed;
         private void Form1_Load(object sender, EventArgs e)
         {
 
@@ -85,7 +84,6 @@ namespace PracticeTask10
             x_input.KeyDown += new KeyEventHandler(X_Input_KeyDown);
             Controls.Add(x_input);
             x_input.Focus();
-            Loop();
         }
         void Print_Sum()
         {
@@ -117,29 +115,19 @@ namespace PracticeTask10
                         }
                         x_input.Focus();
                     }
+                    else
+                    {
+                        x_input.Enabled = false;
+                        MessageBox.Show("Вы ввели 0, выберите заново список для вычисления полинома", "Информация", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        Remove_Elements();
+                        вычислениеПолиномаToolStripMenuItem.Enabled = false;
+                        x = 101;
+                        list_output.Text = string.Empty;
+                    }
                 }
                 else MessageBox.Show("х не должен превышать 100 по модулю!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else MessageBox.Show("Введите целое число!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
-        void Loop()
-        {
-            while (x != 0)
-            {
-                do
-                {
-                    Application.DoEvents();
-                } while (!is_inputed);
-                if (is_inputed) Print_Sum();
-                is_inputed = false;
-            }
-            x_input.Enabled = false;
-            MessageBox.Show("Вы ввели 0, выберите заново список для вычисления полинома", "Информация", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            Remove_Elements();
-            вычислениеПолиномаToolStripMenuItem.Enabled = false;
-            x = 101;
-            list_output.Text = string.Empty;
-            is_inputed = false;
         }
         void Remove_Elements()
         {
@@ -163,7 +151,7 @@ namespace PracticeTask10
         {
             if (e.KeyCode == Keys.Enter)
             {
-                is_inputed = true;
+                Print_Sum();
             }
         }
 
