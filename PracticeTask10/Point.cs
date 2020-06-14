@@ -8,9 +8,9 @@ namespace PracticeTask10
 {
     public class Point
     {
-        public int Pow { get; set; }
-        public int Coeff { get; set; }
-        public Point Next;
+        public int Pow { get; set; } // Степень числа
+        public int Coeff { get; set; } // Коэффициент
+        public Point Next; // Ссылка на следующий элемент
         public Point(int pow, int coeff)
         {
             this.Pow = pow;

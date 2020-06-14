@@ -19,7 +19,7 @@ namespace PracticeTask10
         {
 
         }
-        string[] Read_FromFile()
+        string[] Read_FromFile() // Чтение из файла
         {
             openFileDialog1 = new OpenFileDialog();
             openFileDialog1.Title = "Открытие текстового файла";
@@ -33,33 +33,31 @@ namespace PracticeTask10
             }
             return filelines;
         }
-        void Make_List()
+        void Make_List() // Создание списка
         {
-            string[] lines = Read_FromFile();
-            if (lines != null)
+            string[] lines = Read_FromFile(); // Чтение из файла
+            if (lines != null) // Не пустой файл
             {
-                if (lines.Length > 0)
+                if (lines.Length <= 20) // Количество строк в файле не больше 20
                 {
-                    if (lines.Length <= 20)
+                    list = new OneList(lines); // Создание списка из строк
+                    if (list.Length == 0) MessageBox.Show("Файл содержит некорректные данные!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    else
                     {
-                        list = new OneList(lines);
-                        if (list.Length == 0) MessageBox.Show("Файл содержит некорректные данные!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        else
-                        {
-                            list_output.Text = list.Show();
-                            вычислениеПолиномаToolStripMenuItem.Enabled = true;
-                        }
+                        list_output.Text = list.Show();
+                        // Доступно вычисление полинома
+                        вычислениеПолиномаToolStripMenuItem.Enabled = true;
                     }
-                    else MessageBox.Show("Строк в файле должно быть не больше 20!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                else MessageBox.Show("Пустой файл!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                else MessageBox.Show("Строк в файле должно быть не больше 20!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            else MessageBox.Show("Пустой файл!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
         private void созданиеСпискаToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Make_List();
         }
-        public void Add_X()
+        public void Add_X() // Добавление элементов управления для ввода х
         {
             x_label = new Label()
             {
@@ -85,23 +83,23 @@ namespace PracticeTask10
             Controls.Add(x_input);
             x_input.Focus();
         }
-        void Print_Sum()
+        void Print_Sum() // Вывод суммы
         {
-            if (int.TryParse(x_input.Text, out x))
+            if (int.TryParse(x_input.Text, out x)) // Введено целое х
             {
-                if (Math.Abs(x) <= 100)
+                if (Math.Abs(x) <= 100) // х по модулю не превосходит 100
                 {
-                    if (x != 0)
+                    if (x != 0) // х не равно 0
                     {
-                        double sum = list.Sum_Calculation(x);
-                        if (sum_label != null)
+                        double sum = list.Sum_Calculation(x); // Вычисление суммы полинома
+                        if (sum_label != null) // Сумма уже выводилась ранее
                         {
-                            sum_label.Text = "Полином равен: " + sum.ToString();
+                            sum_label.Text = "Полином равен: " + sum.ToString(); // Вывод суммы
                             sum_label.Visible = true;
                         }
                         else
                         {
-                            sum_label = new Label()
+                            sum_label = new Label() // Создание метки для вывода суммы
                             {
                                 Name = "sum_label",
                                 Text = "Полином равен: " + sum.ToString(),
@@ -111,15 +109,15 @@ namespace PracticeTask10
                                 ForeColor = Color.Black,
                                 Font = list_output.Font
                             };
-                            Controls.Add(sum_label);
+                            Controls.Add(sum_label); // Вывод суммы
                         }
-                        x_input.Focus();
+                        x_input.Focus(); // Фокус снова на текстбоксе для ввода х
                     }
                     else
                     {
                         x_input.Enabled = false;
                         MessageBox.Show("Вы ввели 0, выберите заново список для вычисления полинома", "Информация", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        Remove_Elements();
+                        Remove_Elements(); // Очищение формы
                         вычислениеПолиномаToolStripMenuItem.Enabled = false;
                         x = 101;
                         list_output.Text = string.Empty;
@@ -129,29 +127,29 @@ namespace PracticeTask10
             }
             else MessageBox.Show("Введите целое число!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
-        void Remove_Elements()
+        void Remove_Elements() // Очищение формы
         {
-            if (x_label != null)
+            if (x_label != null) // Если не удалено
             {
-                Controls.Remove(x_label);
+                Controls.Remove(x_label); // Удаление
                 x_label = null;
             }
-            if (x_input != null)
+            if (x_input != null) // Если не удалено
             {
-                Controls.Remove(x_input);
+                Controls.Remove(x_input); // Удаление
                 x_input = null;
             }
-            if (sum_label != null)
+            if (sum_label != null) // Если не удалено
             {
-                Controls.Remove(sum_label);
+                Controls.Remove(sum_label); // Удаление
                 sum_label = null;
             }
         }
         void X_Input_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter)
+            if (e.KeyCode == Keys.Enter) // Нажат энтер
             {
-                Print_Sum();
+                Print_Sum(); // Вывод суммы
             }
         }
 
@@ -162,7 +160,7 @@ namespace PracticeTask10
 
         private void вычислениеПолиномаToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Add_X();
+            Add_X(); // Вывод элементов управления для ввода х
         }
     }
 }
